@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8" />
+<link rel="apple-touch-icon" sizes="76x76"
+	href="/app-assets/img/apple-icon.png">
+<link rel="icon" type="image/png" href="/app-assets/img/favicon.png">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>Magpie Admin Dashboard</title>
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+	name='viewport' />
+<!--     Fonts and icons     -->
+<link rel="stylesheet" type="text/css"
+	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<!-- CSS Files -->
+<link href="/app-assets/css/material-dashboard.css?v=2.1.0"
+	rel="stylesheet" />
+<!-- CSS Just for demo purpose, don't include it in your project -->
+<link href="/app-assets/demo/demo.css" rel="stylesheet" />
+<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+	<div class="wrapper ">
+		<!-- Sidebar -->
+		<div th:replace="/fragments/component :: sidebar"></div>
+		<div class="main-panel">
+			<!-- Navbar -->
+			<div th:replace="/fragments/component  :: navbar"></div>
+
+			<!-- Main Content Goes Here -->
+			<div class="content">
+				<div class="container">
+		<h2 align="center">Data Graph</h2>
+
+		<div id="container"
+			style="width: 700px; height: 500px; margin: 0 auto"></div>
+	
+
+	<script th:inline="javascript">
+    $(function(){
+    Highcharts.chart('container', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Organization'
+        },
+        subtitle: {
+            text: 'Details'
+        },
+        xAxis: {
+            categories: [[${name}]],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            max:100,
+            title: {
+                text: 'Age'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} K</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: 'Name',
+             data: [[${age}]] 
+        }]
+      });
+    });
+</script>
+
+</div>
+			</div>
+
+			<!-- footer-->
+			<div th:replace="/fragments/component  :: footer"></div>
+			<script>
+				const x = new Date().getFullYear();
+				let date = document.getElementById('date');
+				date.innerHTML = '&copy; ' + x + date.innerHTML;
+			</script>
+		</div>
+	</div>
+
+	<!--   Core JS Files   -->
+	<div th:replace="/fragments/component  :: script"></div>
+	<script>
+		$(document).ready(function() {
+			// Javascript method's body can be found in assets/js/demos.js
+			md.initDashboardPageCharts();
+
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,518 @@
+
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<link rel="apple-touch-icon" sizes="76x76"
+	href="/app-assets/img/apple-icon.png">
+<link rel="icon" type="image/png" href="/app-assets/img/favicon.png">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>Magpie Add Airports</title>
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+	name='viewport' />
+<!--     Fonts and icons     -->
+<link rel="stylesheet" type="text/css"
+	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<!-- CSS Files -->
+<link href="/app-assets/css/material-dashboard.css?v=2.1.0"
+	rel="stylesheet" />
+<!-- CSS Just for demo purpose, don't include it in your project -->
+<link href="/app-assets/demo/demo.css" rel="stylesheet" />
+</head>
+
+<body>
+	<div class="wrapper ">
+		<!-- Sidebar -->
+		<div th:replace="/fragments/component :: sidebar"></div>
+		<div class="main-panel">
+			<!-- Navbar -->
+			<div th:replace="/fragments/component  :: navbar"></div>
+
+			<!-- Main Content Goes Here -->
+			<div class="content">
+				
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-3"></div>
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-header card-header-primary">
+									<h4 class="card-title text-center">Update</h4>
+									<h4 class="card-title text-center" th:text="${plan}"></h4>
+
+									<!--  <p class="card-category">Complete your profile</p> -->
+								</div>
+								<div class="card-body">
+									<form th:action="@{/updateSeat}" th:object="${assign}"
+										method="post">
+										<div class="form-group">
+											<input type="hidden" th:field="*{id}" />
+										</div>
+										<div class="container" id="seatplan" style="display: none">
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="bmd-label-floating">Flight Name</label> <input
+															type="text" th:field="*{flightName}" class="form-control">
+													</div>
+												</div>
+
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="bmd-label-floating">Flight Code</label> <input
+															type="text" th:field="*{flightCode}" class="form-control">
+													</div>
+												</div>
+
+											</div>
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="bmd-label-floating">Fly Date</label> <input
+															type="date" th:field="*{flightDate}" placeholder=" "
+															class="form-control">
+
+													</div>
+
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="bmd-label-floating">Take Off Time</label> <input
+															type="text" th:field="*{takeoffTime}"
+															class="form-control">
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">Air Bus Code</label> <select
+															id="airBusCode" th:field="*{airbusCode}"
+															class="form-control">
+
+															<option th:each="airbus : ${listFlight}"
+																th:value="${airbus.airBusCode}"
+																th:text="${airbus.airBusCode}"></option>
+
+														</select>
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">From</label> <select
+															id="from" th:field="*{start}" class="form-control">
+
+															<option th:each="airbus : ${listPort}"
+																th:value="${airbus.airName}" th:text="${airbus.airName}"></option>
+
+														</select>
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">To</label> <select
+															id="to" th:field="*{destination}" class="form-control">
+
+															<option th:each="airbus : ${listPort}"
+																th:value="${airbus.airName}" th:text="${airbus.airName}"></option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">Economy Fare</label> <input
+															type="text" th:field="*{fareEconomy}"
+															class="form-control">
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">Business Fare</label> <input
+															type="text" th:field="*{fareBusiness}"
+															class="form-control">
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">Premium fare</label> <input
+															th:field="*{farePremium}" class="form-control">
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="container">
+											<div class="row">
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating text-primary">Economy
+															Class </label>
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating text-primary">Business
+															Class</label>
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating text-primary">Premium
+															Class</label>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">E1</label> <input
+															type="text" th:field="*{E1}" id="e1" onclick="getE1()"
+															class="form-control">
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">B1</label> <input
+															type="text" th:field="*{B1}" id="b1" onclick="getB1()"
+															class="form-control">
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">P1</label> <input
+															th:field="*{P1}" id="p1" onclick="getP1()"
+															class="form-control">
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">E2</label> <input
+															type="text" th:field="*{E2}" id="e2" onclick="getE2()"
+															class="form-control">
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">B2</label> <input
+															type="text" th:field="*{B2}" id="b2" onclick="getB2()"
+															class="form-control">
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">P2</label> <input
+															th:field="*{P2}" id="p2" onclick="getP2()"
+															class="form-control">
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">E3</label> <input
+															type="text" th:field="*{E3}" id="e3" onclick="getE3()"
+															class="form-control">
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">B3</label> <input
+															type="text" th:field="*{B3}" id="b3" onclick="getB3()"
+															class="form-control">
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">P3</label> <input
+															th:field="*{P3}" id="p3" onclick="getP3()"
+															class="form-control">
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">E4</label> <input
+															type="text" th:field="*{E4}" id="e4" onclick="getE4()"
+															class="form-control">
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">B4</label> <input
+															type="text" th:field="*{B4}" id="b4" onclick="getB4()"
+															class="form-control">
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">P4</label> <input
+															th:field="*{P4}" id="p4" onclick="getP4()"
+															class="form-control">
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">E5</label> <input
+															type="text" th:field="*{E5}" id="e5" onclick="getE5()"
+															class="form-control">
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">B5</label> <input
+															type="text" th:field="*{B5}" id="b5" onclick="getB5()"
+															class="form-control">
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">P5</label> <input
+															th:field="*{P5}" id="p5" onclick="getP5()"
+															class="form-control">
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-4">
+													<div class="form-group">
+
+														<label class="bmd-label-floating">B6</label> <input
+															type="text" th:field="*{B6}" id="b6" onclick="getB6()"
+															class="form-control">
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">B6</label> <input
+															type="text" th:field="*{B6}" id="b6" onclick="getB6()"
+															class="form-control">
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">E7</label> <input
+															type="text" th:field="*{E7}" id="e7" onclick="getE6()"
+															class="form-control">
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">B7</label> <input
+															type="text" th:field="*{B7}" id="b7" onclick="getB7()"
+															class="form-control">
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">E8</label> <input
+															type="text" th:field="*{E8}" id="e8" onclick="getE8()"
+															class="form-control">
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label class="bmd-label-floating">B8</label> <input
+															type="text" th:field="*{B8}" id="b8" onclick="getB8()"
+															class="form-control">
+													</div>
+												</div>
+											</div>
+
+
+
+										</div>
+										<button type="submit" class="btn btn-primary pull-right">Update</button>
+
+										<input type="button" class="btn btn-info pull-left" id="val"
+											value="Show Other Information" onclick="myFunction()" />
+
+										<div class="clearfix"></div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3"></div>
+					</div>
+				</div>
+			</div>
+
+			<!-- footer-->
+			<div th:replace="/fragments/component  :: footer"></div>
+			<script>
+				function myFunction() {
+					var x = document.getElementById("seatplan");
+					if (x.style.display === "none") {
+						x.style.display = "block";
+						document.getElementById("val").value = "Minimize Other Info";
+					} else {
+						x.style.display = "none";
+						document.getElementById("val").value = "Show Other Info";
+					}
+				}
+				var put = document.getElementsByTagName("input");
+				for (let i = 0; i < put.length; i++) {
+					if (put[i].value == "booked") {
+						/* put[i].disabled = true; */
+						put[i].style.backgroundColor = "#FC897E";
+					} else {
+						put[i].disabled = false;
+					}
+				}
+				function getE1() {
+					var a = document.getElementById("e1");
+					if (a.value == "booked") {
+						a.value = " ";
+						a.style.backgroundColor = "white";
+					} else {
+						a.value = "booked"
+						a.value.style.backgroundColor = "#a2deca";
+					}
+				}
+
+				function getB1() {
+					var a = document.getElementById("b1");
+					if (a.value == "booked") {
+						a.value = " ";
+						a.style.backgroundColor = "white";
+					} else {
+						a.value = "booked";
+						a.style.backgroundColor = "#a2deca";
+					}
+				}
+
+				function getP1() {
+					if (document.getElementById("p1").value == "booked") {
+						document.getElementById("p1").value = " ";
+						document.getElementById("p1").style.backgroundColor = "white";
+					}
+					document.getElementById("p1").value = "booked";
+					document.getElementById("p1").style.backgroundColor = "#a2deca";
+				}
+				function getE2() {
+					if (document.getElementById("e2").value == "booked") {
+						document.getElementById("e2").value = " ";
+						document.getElementById("e2").style.backgroundColor = "white";
+					} else {
+						document.getElementById("e2").value = "booked";
+						document.getElementById("e2").style.backgroundColor = "#a2deca";
+					}
+				}
+
+				function getB2() {
+					if (document.getElementById("b2").value == "booked") {
+						document.getElementById("b2").value = " ";
+						document.getElementById("b2").style.backgroundColor = "white";
+					}
+					document.getElementById("b2").value = "booked";
+					document.getElementById("b2").style.backgroundColor = "#a2deca";
+				}
+
+				function getP2() {
+					document.getElementById("p2").value = "booked";
+					document.getElementById("p2").style.backgroundColor = "#a2deca";
+				}
+				function getE3() {
+					document.getElementById("e3").value = "booked";
+					document.getElementById("e3").style.backgroundColor = "#a2deca";
+				}
+				function getB3() {
+					document.getElementById("b3").value = "booked";
+					document.getElementById("b3").style.backgroundColor = "#a2deca";
+				}
+				function getP3() {
+					document.getElementById("p3").value = "booked";
+					document.getElementById("p3").style.backgroundColor = "#a2deca";
+				}
+				function getE4() {
+					document.getElementById("e4").value = "booked";
+					document.getElementById("e4").style.backgroundColor = "#a2deca";
+				}
+				function getB4() {
+					document.getElementById("b4").value = "booked";
+					document.getElementById("b4").style.backgroundColor = "#a2deca";
+				}
+				function getP4() {
+					document.getElementById("p4").value = "booked";
+					document.getElementById("p4").style.backgroundColor = "#a2deca";
+				}
+				function getE5() {
+					document.getElementById("e5").value = "booked";
+					document.getElementById("e5").style.backgroundColor = "#a2deca";
+				}
+				function getB5() {
+					document.getElementById("b5").value = "booked";
+					document.getElementById("b5").style.backgroundColor = "#a2deca";
+				}
+				function getP5() {
+					document.getElementById("p5").value = "booked";
+					document.getElementById("p5").style.backgroundColor = "#a2deca";
+				}
+				function getE6() {
+					document.getElementById("e6").value = "booked";
+					document.getElementById("e6").style.backgroundColor = "#a2deca";
+				}
+				function getB6() {
+					document.getElementById("b6").value = "booked";
+					document.getElementById("b6").style.backgroundColor = "#a2deca";
+				}
+				function getE7() {
+					document.getElementById("e6").value = "booked";
+					document.getElementById("e6").style.backgroundColor = "#a2deca";
+				}
+				function getB7() {
+					document.getElementById("b6").value = "booked";
+					document.getElementById("b6").style.backgroundColor = "#a2deca";
+				}
+				function getE7() {
+					document.getElementById("e7").value = "booked";
+					document.getElementById("e7").style.backgroundColor = "#a2deca";
+				}
+				function getB7() {
+					document.getElementById("b7").value = "booked";
+					document.getElementById("b7").style.backgroundColor = "#a2deca";
+				}
+				function getE8() {
+					document.getElementById("e8").value = "booked";
+					document.getElementById("e8").style.backgroundColor = "#a2deca";
+				}
+				function getB8() {
+					document.getElementById("b8").value = "booked";
+					document.getElementById("b8").style.backgroundColor = "#a2deca";
+				}
+			</script>
+		</div>
+	</div>
+
+	<!--   Core JS Files   -->
+	<div th:replace="/fragments/component  :: script"></div>
+	<script>
+		$(document).ready(function() {
+			// Javascript method's body can be found in assets/js/demos.js
+			md.initDashboardPageCharts();
+
+		});
+	</script>
+</body>
+
+</html>

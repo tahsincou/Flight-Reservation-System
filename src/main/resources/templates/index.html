@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8" />
+<link rel="apple-touch-icon" sizes="76x76"
+	href="/app-assets/img/apple-icon.png">
+<link rel="icon" type="image/png" href="/app-assets/img/favicon.png">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>Magpie Admin Dashboard</title>
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+	name='viewport' />
+<!--     Fonts and icons     -->
+<link rel="stylesheet" type="text/css"
+	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<!-- CSS Files -->
+<link href="/app-assets/css/material-dashboard.css?v=2.1.0"
+	rel="stylesheet" />
+
+</head>
+
+<body>
+	<div class="wrapper ">
+		<!-- Sidebar -->
+		<div th:replace="/fragments/component :: sidebar"></div>
+		<div class="main-panel">
+			<!-- Navbar -->
+			<div th:replace="/fragments/component  :: navbar"></div>
+
+			<!-- Main Content Goes Here -->
+			<div class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-xl-4 col-lg-12">
+							<div class="card card-chart">
+								<div class="card-header card-header-success">
+									<div class="ct-chart" id="dailySalesChart"></div>
+								</div>
+								<div class="card-body">
+									<h4 class="card-title">Daily Flight Rate ${name}</h4>
+									<p class="card-category">
+										<span class="text-success"><i
+											class="fa fa-long-arrow-up"></i> 15% </span> increase in today
+										flights
+									</p>
+								</div>
+								<div class="card-footer">
+									<div class="stats">
+										<i class="material-icons">access_time</i> updated 4 minutes
+										ago
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						
+						<div class="col-xl-4 col-lg-12">
+							<div class="card card-chart">
+								<div class="card-header card-header-warning">
+									<div class="ct-chart" id="websiteViewsChart"></div>
+								</div>
+								<div class="card-body">
+									<h4 class="card-title">Number of Booking</h4>
+									<p class="card-category">Month Wise</p>
+								</div>
+								<div class="card-footer">
+									<div class="stats">
+										<i class="material-icons">access_time</i> campaign sent 2 days
+										ago
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						
+						<div class="col-xl-4 col-lg-12">
+							<div class="card card-chart">
+								<div class="card-header card-header-danger">
+									<div class="ct-chart" id="completedTasksChart"></div>
+								</div>
+								<div class="card-body">
+									<h4 class="card-title">Completed Tasks</h4>
+									<p class="card-category">Last Campaign Performance</p>
+								</div>
+								<div class="card-footer">
+									<div class="stats">
+										<i class="material-icons">access_time</i> campaign sent 2 days
+										ago
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6 col-md-12">
+							<div class="card">
+								<div class="card-header card-header-tabs card-header-primary">
+									<h4 class="card-title">On Going Flight</h4>
+									<p class="card-category" id="date" ></p>
+								</div>
+								<div class="card-body table-responsive">
+									<table class="table table-hover">
+										<thead class="text-primary text-center">
+
+											<th>Flight Name</th>
+											<th>Flight Code</th>
+											<th>Flight Date</th>
+											<th>Flight Time</th>
+											<th>From</th>
+											<th>To</th>
+											<th>Action</th>
+
+										</thead>
+										<tbody>
+											<tr th:each="airport : ${flight}">
+												<td th:text="${airport.flightName}"></td>
+												<td th:text="${airport.flightCode}"></td>
+												<td th:text="${airport.flightDate}"></td>
+												<td th:text="${airport.takeoffTime}"></td>
+												<td th:text="${airport.start}"></td>
+												<td th:text="${airport.destination}"></td>
+												<td><a class="btn btn-info"
+													th:href="@{/showFlightUpdate/{id}(id=${airport.id})}">
+														Edit</a> <a class="btn btn-danger"
+													th:href="@{/deleteFlight/{id}(id=${airport.id})}">
+														Delete</a></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-12">
+							<div class="card">
+								<div class="card-header card-header-tabs card-header-info">
+									<h4 class="card-title">Booking Request</h4>
+									<p class="card-category" id="dates"></p>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table" id="myTable">
+											<thead class=" text-primary">
+
+												<th>Flight Code</th>
+												<th>Flight Name</th>
+												<th>Flight Date</th>
+												<th>Flight Time</th>
+												<th>From</th>
+												<th>Destination</th>
+												<th>Passenger Name</th>
+												<th>Passport</th>
+												<th>Email</th>
+												<th>Seat Code</th>
+												<th>Contact</th>
+												<th>Action</th>
+
+											</thead>
+											<tbody style="font-size: 17px">
+												<tr th:each="airport : ${listbookings}">
+													<td th:text="${airport.flightCode}" class="text-primary"></td>
+													<td th:text="${airport.flightName}"></td>
+													<td th:text="${airport.flightDate}"></td>
+													<td th:text="${airport.flightTime}"></td>
+													<td th:text="${airport.start}"></td>
+													<td th:text="${airport.destination}"></td>
+													<td th:text="${airport.passenger_name}"></td>
+													<td th:text="${airport.passport}"></td>
+													<td th:text="${airport.email}"></td>
+													<td></td>
+													<td th:text="${airport.contact}"></td>
+													<!-- th:href="@{/showAirportUpdate/{id}(id=${airport.id})}" -->
+													<!-- th:href="@{/deleteAirport/{id}(id=${airport.id})}" -->
+													<td><a class="btn btn-info">Assign Seats</a> <a
+														class="btn btn-success">
+															Confirm Booking</a>
+															<!--  th:href="@{/confirmbooking/{id}(id=${airport.id})}"-->
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- footer-->
+			<div th:replace="/fragments/component  :: footer"></div>
+			<script>
+			var currentdate = new Date(); 
+			var datetime = "Last Modified: " + currentdate.getDate() + "/"
+			                + (currentdate.getMonth()+1)  + "/" 
+			                + currentdate.getFullYear() + " : "  
+			                + currentdate.getHours() + ":"  
+			                + currentdate.getMinutes() 
+				const x = new Date().getDay();
+				let date = document.getElementById('date');
+				let dates = document.getElementById('dates');
+				date.innerHTML = datetime + date.innerHTML;
+				dates.innerHTML = datetime + dates.innerHTML;
+			</script>
+		</div>
+	</div>
+
+	<!--   Core JS Files   -->
+	<div th:replace="/fragments/component  :: script"></div>
+	<script>
+		$(document).ready(function() {
+			// Javascript method's body can be found in assets/js/demos.js
+			md.initDashboardPageCharts();
+
+		});
+		
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8" />
+<link rel="apple-touch-icon" sizes="76x76"
+	href="/app-assets/img/apple-icon.png">
+<link rel="icon" type="image/png" href="/app-assets/img/favicon.png">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>Magpie Admin Dashboard</title>
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+	name='viewport' />
+<!--     Fonts and icons     -->
+<link rel="stylesheet" type="text/css"
+	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<!-- CSS Files -->
+<link href="/app-assets/css/material-dashboard.css?v=2.1.0"
+	rel="stylesheet" />
+<!-- CSS Just for demo purpose, don't include it in your project -->
+<link href="//cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css"
+	rel="stylesheet" />
+<link href="/app-assets/demo/demo.css" rel="stylesheet" />
+</head>
+
+<body>
+	<div class="wrapper ">
+		<!-- Sidebar -->
+		<div th:replace="/fragments/component :: sidebar"></div>
+		<div class="main-panel">
+			<!-- Navbar -->
+			<div th:replace="/fragments/component  :: navbar"></div>
+
+			<!-- Main Content Goes Here -->
+			<div class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header card-header-primary">
+									<h4 class="card-title text-center ">List of Booking
+										Requests</h4>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table text-center" id="myTable">
+											<thead class=" text-primary">
+												<th>Flight Name</th>
+												<th>Flight Code</th>
+												<th>Flight Date</th>
+												<th>Flight Time</th>
+												<th>From</th>
+												<th>Destination</th>
+												<th>Passenger Name</th>
+												<th>Passport</th>
+												<th>Email</th>
+												<th>Seat Code</th>
+												<th>Total Fare</th>
+												<th>Transaction Id</th>
+												<th>Contact</th>
+												<!-- <th>Status</th> -->
+												<th>Action</th>
+
+											</thead>
+											<tbody style="font-size: 17px">
+												<tr th:each="booking : ${listbookings}">
+													<td th:text="${booking.flightCode}" id="fcode"
+														class="text-primary"></td>
+													<td th:text="${booking.flightName}" id="fname"></td>
+													<td th:text="${booking.flightDate}" id="fdate"></td>
+													<td th:text="${booking.flightTime}" id="ftime"></td>
+													<td th:text="${booking.start}" id="start"></td>
+													<td th:text="${booking.destination}" id="dest"></td>
+													<td th:text="${booking.passenger_name}" id="name"></td>
+													<td th:text="${booking.passport}"></td>
+													<td th:text="${booking.email}"></td>
+													<td th:text="${booking.seatName}" id="seat"></td>
+													<td th:text="${booking.totalFare}"></td>
+													<td th:text="${booking.transactionId}" id="trId"></td>
+													<td th:text="${booking.contact}"></td>
+													<!-- <td id="pen" class="text-primary">Pending</td> -->
+
+													<!-- th:href="@{/showAirportUpdate/{id}(id=${airport.id})}"     /showFlightSeat/{code}-->
+													<!-- th:href="@{/deleteAirport/{id}(id=${airport.id})}" -->
+													<td><a class="btn btn-info"
+														th:href="@{/showSeat/{code}(code=${booking.flightCode})}">
+															Assign Seat</a> <a class="btn btn-warning" onclick="get()"
+														data-toggle="modal" data-target="#exampleModal">Confirm
+															Booking</a>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Modal -->
+					<div class="row">
+						<div class="modal fade bd-example-modal-lg" id="exampleModal"
+							tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+							aria-hidden="true">
+							<div class="modal-dialog modal-lg" role="document">
+								<div class="modal-content" style="border-radius: 10px">
+									<form action="javascript:sendmail()" method="post">
+										<div class="modal-header">
+											<h5 class="modal-title">Boarding Pass</h5>
+
+										</div>
+										<div class="modal-body">
+											<div class="container">
+												<div class="card">
+
+													<div class="card-body">
+														<h4 class="text-primary text-center">Magpie Flight
+															Reservation System</h4>
+														<div class="row">
+															<div class="col-md-3">
+																<img class="card-img-top"
+																	src="/app-assets/img/download/london.jpg"
+																	alt="Card image cap">
+															</div>
+
+															<div class="col-md-4" id="hl">
+																<div class="form-group">
+																	<label>Passenger Name </label> <br> <label
+																		class="text-primary" id="pname"> </label>
+																	<!-- <input
+																type="email" class="form-control"
+																id="exampleInputEmail1" aria-describedby="emailHelp"
+																placeholder="Enter email"> -->
+																</div>
+																<div class="form-group">
+																	<label>From</label> <br> <label
+																		class="text-primary" id="from"> </label>
+																</div>
+																<div class="form-group">
+																	<label>To</label> <br> <label class="text-primary"
+																		id="to"> </label>
+																</div>
+
+															</div>
+															<div class="col-md-3">
+																<!-- 	<div class="form-group">
+																	<label>Terminal</label> <br> <label
+																		class="text-primary">12 </label>
+																</div> -->
+																<div class="form-group">
+																	<label>Flight</label> <br> <label
+																		class="text-primary" id="flname"> </label>
+																</div>
+																<div class="form-group">
+																	<label>Email</label> <br> <label
+																		class="text-primary" id="mail"> </label>
+																</div>
+																<div class="form-group">
+																	<label>Date</label> <br> <label
+																		class="text-primary" id="fldate"> </label>
+																</div>
+															</div>
+															<div class="col-md-2">
+																<div class="form-group">
+																	<label>Time</label><br> <label
+																		class="text-primary" id="fltime"> </label>
+																</div>
+																<div class="form-group">
+																	<label>Seat</label> <br> <label
+																		class="text-primary" id="flseat"> </label>
+																</div>
+																<div class="form-group">
+																	<label>Reference Id</label> <br> <label
+																		class="text-primary" id="ref"> </label>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="submit" class="btn btn-primary">Send
+												Confirmation Email</button>
+											<button type="button" class="btn btn-secondary"
+												data-dismiss="modal">Close</button>
+										</div>
+									</form>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!-- footer-->
+			<div th:replace="/fragments/component  :: footer"></div>
+			<script>
+				$(document).ready(function() {
+					$('#myTable').DataTable();
+
+				});
+
+				function get() {
+					var tab = document.getElementById("myTable"), rIndex;
+					for (var i = 0; i < tab.rows.length; i++) {
+						tab.rows[i].onclick = function() {
+							rIndex = this.rowIndex;
+							document.getElementById("pname").innerHTML = this.cells[6].innerHTML;
+							document.getElementById("from").innerHTML = this.cells[4].innerHTML;
+							document.getElementById("to").innerHTML = this.cells[5].innerHTML;
+							document.getElementById("flname").innerHTML = this.cells[0].innerHTML;
+							document.getElementById("fldate").innerHTML = this.cells[2].innerHTML;
+							document.getElementById("fltime").innerHTML = this.cells[3].innerHTML;
+							document.getElementById("flseat").innerHTML = this.cells[9].innerHTML;
+							document.getElementById("mail").innerHTML = this.cells[8].innerHTML;
+							document.getElementById("ref").innerHTML = this.cells[11].innerHTML;
+						};
+					}
+				}
+
+				/* $("#btnS").on('click',function(){
+					var row= $(this).closest("tr");
+					 var col1= row.find("td:eq(0)").text();
+					 var col2= row.find("td:eq(1)").text();
+					 var col3= row.find("td:eq(2)").text();
+					 var col4= row.find("td:eq(3)").text();
+					 var col5= row.find("td:eq(4)").text();
+					 
+					 alert(col5);
+				}); */
+
+				function setMod() {
+					document.getElementById("pname").inneHTML = document
+							.getElementById("name").innerHTML;
+
+					document.getElementById("from").innerHTML = document
+							.getElementById("start").innerHTML;
+					
+					document.getElementById("to").innerHTML = document
+							.getElementById("dest").innerHTML;
+					document.getElementById("flname").innerHTML = document
+							.getElementById("fcode").innerHTML;
+
+					document.getElementById("fldate").innerHTML = document
+							.getElementById("fdate").innerHTML;
+
+					document.getElementById("fltime").innerHTML = document
+							.getElementById("ftime").innerHTML;
+
+					document.getElementById("flseat").innerHTML = document
+							.getElementById("seat").innerHTML;
+
+					document.getElementById("ref").innerHTML = document
+							.getElementById("trId").innerHTML;
+					/* console.log(t.rows[1].cells[1].innerHTML); */
+
+				}
+
+			</script>
+			<script>
+				const x = new Date().getFullYear();
+				let date = document.getElementById('date');
+				date.innerHTML = '&copy; ' + x + date.innerHTML;
+			</script>
+
+			<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+			<script src="https://smtpjs.com/v3/smtp.js"></script>
+
+			<script>  
+
+    		 function sendmail(){
+    
+			// var name = $('#Name').val();
+			// var email = $('#Sender').val();
+			// var subject = $('#Subject').val();
+      		var reference = $('#ref').text();
+      		var em = $('#mail').text();
+      		var nm=  $('#pname').text();
+      /* 		var st= $('#pen').text(); */
+
+			var Body='Congratulations!!! <br> Your ticket has been successsfully booked. <br> Your reference Id: '+ reference+ 
+			'<br> Use this reference id to download your E-ticket. <br> Thank you '+ nm +' for choosing Magpie.';
+			//console.log(name, phone, email, message);
+
+			Email.send({
+        		SecureToken:"fbf31702-bb7f-4a4e-9c1c-4ccf17ee777f",
+				To: em,
+				From: "tahsincou@gmail.com",
+				Subject: "New message from Magpie Airlines",
+				Body: Body
+			}).then(
+				message =>{
+					//console.log (message);
+					if(message=='OK'){
+					alert('Your mail has been sent');
+					/* document.getElementById("pen").innerHTML= "Completed";
+					sdocument.getElementById("pen").innerHTML.style.color = 'red'; */
+					}
+					else{
+					console.error (message);
+					alert('There is error at sending message.');
+					}
+				}
+			);
+		}
+
+
+    </script>
+		</div>
+	</div>
+
+	<!--   Core JS Files   -->
+	<div th:replace="/fragments/component  :: script"></div>
+	<script>
+		$(document).ready(function() {
+			md.initDashboardPageCharts();
+
+		});
+	</script>
+	<script type="text/javascript"
+		href="//cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+</body>
+
+</html>

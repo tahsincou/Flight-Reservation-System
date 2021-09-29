@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link rel="apple-touch-icon" sizes="76x76"
+	href="/app-assets/img/apple-icon.png">
+<link rel="icon" type="image/png" href="/app-assets/img/favicon.png">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>Magpie Add Airports</title>
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+	name='viewport' />
+<!--     Fonts and icons     -->
+<link rel="stylesheet" type="text/css"
+	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<!-- CSS Files -->
+<link href="/app-assets/css/material-dashboard.css?v=2.1.0"
+	rel="stylesheet" />
+<!-- CSS Just for demo purpose, don't include it in your project -->
+<link href="/app-assets/demo/demo.css" rel="stylesheet" />
+</head>
+
+<body class="">
+	<div class="wrapper ">
+		<!-- Sidebar -->
+		<div th:replace="/fragments/component :: sidebar"></div>
+		<div class="main-panel">
+			<!-- Navbar -->
+			<div th:replace="/fragments/component  :: navbar"></div>
+
+			<!-- Main Content Goes Here -->
+			<div class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-1"></div>
+						<div class="col-md-10">
+							<div class="card">
+								<div class="card-header card-header-primary">
+									<h4 class="card-title">Assign New Flight</h4>
+									<!--  <p class="card-category">Complete your profile</p> -->
+								</div>
+								<div class="card-body">
+									<form th:action="@{/saveFlight}" th:object="${assignflight}"
+										method="post">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="bmd-label-floating">Flight Name</label> <input
+														type="text" th:field="*{flightName}" class="form-control">
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="bmd-label-floating">Flight Code</label> <input
+														type="text" th:field="*{flightCode}" class="form-control">
+												</div>
+											</div>
+
+										</div>
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="bmd-label-floating">Fly Date</label> <input
+														type="date" th:field="*{flightDate}" placeholder=" " class="form-control">
+
+												</div>
+
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="bmd-label-floating">Take Off Time</label> <input
+														type="text" th:field="*{takeoffTime}" class="form-control">
+												</div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-4">
+												<div class="form-group">
+													<label class="bmd-label-floating">Air Bus Code</label> 
+													<select id="airBusCode" th:field="*{airbusCode}" class="form-control" th:onchange="onSelectChange()">
+														<option th:each="airbus : ${listFlight}"
+															th:value="${airbus.airBusCode}" th:text="${airbus.airBusCode}"></option>
+													</select>
+												</div>
+											</div>
+											<!-- th:onchange="myFunction(event)" -->
+											<div class="col-md-4">
+												<div class="form-group">
+													<label class="bmd-label-floating">Start</label> <select
+														id="from"  th:field="*{start}" class="form-control">
+														
+														<option th:each="airbus : ${listPort}"
+															th:value="${airbus.airName}" th:text="${airbus.airName}"></option>
+
+													</select>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="form-group">
+													<label class="bmd-label-floating">To</label> <select
+														id="to" th:field="*{destination}" class="form-control">
+														
+														<option th:each="airbus : ${listPort}"
+															th:value="${airbus.airName}" th:text="${airbus.airName}"></option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<!-- <div class="row">
+											<div class="col-md-2">
+												<div class="form-group">
+													<label class="bmd-label-floating" id="econSeat"> Economy Seat</label> 
+												</div>
+											</div>
+
+											
+											<div class="col-md-2">
+												<div class="form-group">
+													<label class="bmd-label-floating" id="busSeat">Business Seat</label>  <input
+														type="text" th:field="*{business_seat}"  value="#busSeat" class="form-control"> 
+												</div>
+											</div>
+
+											
+											<div class="col-md-2">
+												<div class="form-group">
+													<label class="bmd-label-floating prmS"  id="prmSeat">Premium Seat</label> <input
+														type="text" th:field="*{premium_seat}"  class="form-control "> 
+												</div>
+											</div>
+
+
+										</div>
+							 -->
+										
+										<div class="row">
+											<div class="col-md-4">
+												<div class="form-group">
+													<label class="bmd-label-floating">Economy Fare </label> <input
+														type="text" th:field="*{fareEconomy}" class="form-control">
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="form-group">
+													<label class="bmd-label-floating">Business Fare </label> <input
+														type="text" th:field="*{fareBusiness}" class="form-control">
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="form-group">
+													<label class="bmd-label-floating">Premium fare </label> <input
+														th:field="*{farePremium}" class="form-control">
+												</div>
+											</div>
+											<!-- <div class="col-md-3">
+												<div class="form-group">
+													<label class="bmd-label-floating">Taxes + Extra
+														Facilities </label> 
+														<option></option>
+														<option></option>
+														<option></option>
+												</div>
+											</div> -->
+										</div>
+
+
+										<button type="submit" class="btn btn-primary pull-right">Save</button>
+										<div class="clearfix"></div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-1"></div>
+					</div>
+				</div>
+			</div>
+
+			<!-- footer-->
+			<div th:replace="/fragments/component  :: footer"></div>
+			<script>
+				const x = new Date().getFullYear();
+				let date = document.getElementById('date');
+				date.innerHTML = '&copy; ' + x + date.innerHTML;
+			</script>
+		</div>
+	</div>
+
+	<!--   Core JS Files   -->
+	<div th:replace="/fragments/component  :: script"></div>
+	<script>
+		$(document).ready(function() {
+			// Javascript method's body can be found in assets/js/demos.js
+			md.initDashboardPageCharts();
+
+		});
+		
+		function onSelectChange(){
+			var code = document.getElementById("airBusCode").value;
+			$.ajax({
+				type: "POST",
+				url: "searchAssignFlight/" + code,
+				dataType: "json",
+				success: function (data) {
+
+					document.getElementById("econSeat").innerHTML = data.economy_seat;
+					document.getElementById("busSeat").innerHTML = data.business_seat;
+					document.getElementById("prmSeat").innerHTML = data.premium_seat;
+					
+					console.log("value found" + data.airBusName + " " + data.economy_seat);	
+				}
+			})
+		};
+		/* $('select').on('change', function() {
+			  alert( this.value );
+			}); */
+		
+		function myFunction(e) {
+		    document.getElementById("econSeat").value = e.target.value
+		}
+	</script>
+	<script>
+		$("pick").datetimepicker({
+			timepicker : false,
+			datepicker : true,
+			format : 'd-m-Y',
+			value : '30-10-1995',
+			weeks : true
+
+		})
+	</script>
+
+
+</body>
+
+</html>
