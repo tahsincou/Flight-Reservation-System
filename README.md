@@ -8,3 +8,9 @@ N:B: Its a Spring Boot application where I used Spring boot, Hibernate, MySQL JD
 
 
 ![admin_login](https://user-images.githubusercontent.com/62948399/170835435-f515c26f-32af-4d32-8ed8-fe81115e3c2a.png)
+
+
+![admin_hist](https://user-images.githubusercontent.com/62948399/170835479-f1739669-24fd-49ee-a6a2-f3d2c70a5d72.png)
+
+
+![admin_user](https://user-images.githubusercontent.com/62948399/170835484-67f833f2-632f-4cef-b4ce-3aaf4858b31c.png)
